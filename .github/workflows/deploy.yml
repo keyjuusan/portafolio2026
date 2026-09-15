@@ -28,29 +28,31 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout del código
         uses: actions/checkout@v4
 
-      - name: Set up Bun
+      - name: Configurar Bun
         uses: oven-sh/setup-bun@v2
         with:
-          bun-version: latest # O puedes fijar una versión como '1.1.20'
+          bun-version: latest
 
-      - name: Install dependencies
+      - name: Instalar dependencias
         run: bun install --frozen-lockfile
 
-      - name: Build
+      - name: Compilar proyecto
         run: bun run build
 
-      - name: Setup Pages
+      # Configura automáticamente las rutas de las páginas para GitHub Pages
+      - name: Configurar Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload artifact
+      # Sube la carpeta de salida (Vite genera 'dist' por defecto)
+      - name: Subir artefacto
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload dist folder
           path: './dist'
 
-      - name: Deploy to GitHub Pages
+      # Realiza el despliegue oficial en los servidores de GitHub
+      - name: Desplegar en GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
